@@ -22,40 +22,41 @@
       background: rgba(15, 23, 42, 0.8); color: white; font-weight: 500; outline: none; transition: 0.3s;
     }
     input:focus, select:focus, textarea:focus { border-color: gold; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
-    select option { background: #1e293b; color: white; }
-    
+
+    /* --- MULTI-SELECT CUSTOM (ATELIERS) --- */
+    .dropdown-check-list { width: 100%; position: relative; margin: 8px 0; }
+    .dropdown-check-list .anchor { 
+        position: relative; cursor: pointer; display: block; padding: 12px 15px; 
+        border-radius: 12px; border: 1px solid rgba(255,215,0,0.3); background: rgba(15, 23, 42, 0.8);
+        overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 30px;
+    }
+    .dropdown-check-list .anchor:after { content: ""; position: absolute; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid gold; right: 15px; top: 45%; }
+    .dropdown-check-list ul.items { 
+        padding: 10px; display: none; position: absolute; z-index: 100; background: #1e293b; border: 1px solid gold; 
+        width: 100%; border-radius: 12px; list-style: none; margin-top: 2px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .dropdown-check-list.visible ul.items { display: block; }
+    .dropdown-check-list ul.items li { padding: 8px; display: flex; align-items: center; gap: 10px; color: white; cursor: pointer; border-radius: 8px; }
+    .dropdown-check-list ul.items li:hover { background: rgba(255,215,0,0.1); }
+    .dropdown-check-list ul.items li input { width: auto; margin: 0; cursor: pointer; }
+
     button { padding: 12px 24px; border: none; border-radius: 10px; background: gold; color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.3s; }
     button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,215,0,0.4); }
-    .logout-btn { background: #ef4444; color: white; margin-bottom: 20px; }
 
-    /* --- GRILLE --- */
-    .pieces-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; }
-    .piece-card { background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .piece-card:hover { transform: scale(1.05) rotate(1deg); border-color: gold; z-index: 10; }
+    /* --- FILTRES ET TRI --- */
+    .controls-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+    @media (max-width: 768px) { .controls-row { grid-template-columns: 1fr; } }
+
+    .pieces-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+    .piece-card { background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.4s; }
+    .piece-card:hover { transform: scale(1.05) rotate(1deg); border-color: gold; }
     .piece-card img { width: 100%; height: 160px; object-fit: cover; background: #000; }
-    .piece-content { padding: 12px; font-size: 0.9rem; }
-    .piece-content h3 { color: gold; font-size: 1.1rem; margin-bottom: 5px; }
-    .status-badge { display: inline-block; padding: 2px 8px; border-radius: 8px; background: rgba(255,215,0,0.15); color: gold; font-size: 0.75rem; margin-top: 5px; border: 1px solid gold; }
-    
-    .action-buttons { display: flex; gap: 8px; margin-top: 10px; }
-    .action-buttons button { padding: 6px; font-size: 0.8rem; flex: 1; }
+    .piece-content { padding: 12px; }
+    .status-badge { display: inline-block; padding: 2px 8px; border-radius: 8px; background: rgba(255,215,0,0.15); color: gold; font-size: 0.75rem; border: 1px solid gold; }
 
-    /* --- MODALE --- */
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 2000; }
-    .modal-content { background: #0f172a; border: 2px solid gold; border-radius: 20px; width: 90%; max-width: 800px; position: relative; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; animation: modalScaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    @keyframes modalScaleUp { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-    .close-modal { 
-        position: absolute; top: 15px; right: 20px; font-size: 2.2rem; line-height: 0; color: gold; cursor: pointer; z-index: 2100; font-weight: bold; background: rgba(0,0,0,0.6); 
-        width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; border: 1px solid rgba(255,215,0,0.3);
-    }
-    .close-modal:hover { transform: rotate(90deg) scale(1.1); background: rgba(255,215,0,0.2); }
-    .close-modal span { position: relative; top: -2px; }
-
-    .modal-img-container { width: 100%; background: #000; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid rgba(255,215,0,0.2); }
-    .modal-img-container img { max-width: 100%; max-height: 60vh; object-fit: contain; animation: imgPop 0.6s ease-out; }
-    @keyframes imgPop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-    .modal-body { padding: 20px; overflow-y: auto; }
+    .modal-content { background: #0f172a; border: 2px solid gold; border-radius: 20px; width: 90%; max-width: 800px; position: relative; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2.2rem; color: gold; cursor: pointer; z-index: 2100; font-weight: bold; background: rgba(0,0,0,0.6); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
     .hidden { display: none !important; }
   </style>
@@ -74,44 +75,42 @@
 </div>
 
 <div class="main-container hidden" id="adminView">
-  <button onclick="auth.signOut()" class="logout-btn">Déconnexion</button>
+  <button onclick="auth.signOut()" style="background:#ef4444; color:white; margin-bottom:20px;">Déconnexion</button>
   <h2 id="formTitle">➕ Ajouter une pièce</h2>
   <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:10px;">
     <input type="text" id="pID" placeholder="ID (ex: FRA-2024-JO)">
     <select id="pCountry">
-      <option value="">Sélectionner le Pays</option>
-      <option>Allemagne</option><option>Andorre</option><option>Autriche</option>
-      <option>Belgique</option><option>Chypre</option><option>Croatie</option>
-      <option>Espagne</option><option>Estonie</option><option>Finlande</option>
-      <option>France</option><option>Grèce</option><option>Irlande</option>
-      <option>Italie</option><option>Lettonie</option><option>Lituanie</option>
-      <option>Luxembourg</option><option>Malte</option><option>Monaco</option>
-      <option>Pays-Bas</option><option>Portugal</option><option>Saint-Marin</option>
-      <option>Slovaquie</option><option>Slovénie</option><option>Vatican</option>
+      <option value="">Pays</option>
+      <option>Allemagne</option><option>Andorre</option><option>Autriche</option><option>Belgique</option>
+      <option>Chypre</option><option>Croatie</option><option>Espagne</option><option>Estonie</option>
+      <option>Finlande</option><option>France</option><option>Grèce</option><option>Irlande</option>
+      <option>Italie</option><option>Lettonie</option><option>Lituanie</option><option>Luxembourg</option>
+      <option>Malte</option><option>Monaco</option><option>Pays-Bas</option><option>Portugal</option>
+      <option>Saint-Marin</option><option>Slovaquie</option><option>Slovénie</option><option>Vatican</option>
     </select>
     <select id="pYear"><option value="">Année</option></select>
-    <select id="pWorkshop">
-      <option value="Aucun">Atelier (Aucun)</option>
-      <option>A (Berlin)</option><option>D (Munich)</option>
-      <option>F (Stuttgart)</option><option>G (Karlsruhe)</option>
-      <option>J (Hambourg)</option>
-    </select>
+    
+    <div id="workshopList" class="dropdown-check-list" tabindex="100">
+        <span class="anchor" id="wsLabel">Choisir Atelier(s)</span>
+        <ul class="items">
+            <li><input type="checkbox" value="Aucun"/> Aucun</li>
+            <li><input type="checkbox" value="A"/> A (Berlin)</li>
+            <li><input type="checkbox" value="D"/> D (Munich)</li>
+            <li><input type="checkbox" value="F"/> F (Stuttgart)</li>
+            <li><input type="checkbox" value="G"/> G (Karlsruhe)</li>
+            <li><input type="checkbox" value="J"/> J (Hambourg)</li>
+        </ul>
+    </div>
+
     <select id="pCondition">
       <option value="Non spécifié">État de la pièce</option>
-      <option>BE (Belle Épreuve)</option>
-      <option>BU (Brillant Universel)</option>
-      <option>SPL (Splendide)</option>
-      <option>AU (Presque Splendide)</option>
-      <option>TTB (Très Très Beau)</option>
-      <option>TB (Très Beau)</option>
-      <option>B (Beau)</option>
-      <option>AB (Assez Beau)</option>
-      <option>P (Passable)</option>
+      <option>BE</option><option>BU</option><option>SPL</option><option>AU</option>
+      <option>TTB</option><option>TB</option><option>B</option><option>AB</option><option>P</option>
     </select>
-    <input type="number" id="pValue" placeholder="Valeur estimée (€)">
+    <input type="number" id="pValue" placeholder="Valeur (€)">
     <input type="number" id="pQty" placeholder="Quantité">
     <input type="date" id="pDate">
-    <input type="text" id="pImage" placeholder="Lien URL de l'image">
+    <input type="text" id="pImage" placeholder="Lien Image">
   </div>
   <textarea id="pDesc" placeholder="Description..."></textarea>
   <button id="btnSave" style="width: 100%; margin-top: 15px;">💾 Enregistrer</button>
@@ -119,28 +118,42 @@
 </div>
 
 <div class="main-container">
-  <h2>🔍 Rechercher & Explorer</h2>
-  <input type="text" id="searchInput" placeholder="Rechercher...">
+  <h2>🔍 Explorer la collection</h2>
+  <div class="controls-row">
+      <input type="text" id="searchInput" placeholder="Rechercher...">
+      <select id="filterCountry">
+          <option value="">Tous les Pays</option>
+          <option>Allemagne</option><option>Andorre</option><option>Autriche</option><option>Belgique</option>
+          <option>Chypre</option><option>Croatie</option><option>Espagne</option><option>Estonie</option>
+          <option>Finlande</option><option>France</option><option>Grèce</option><option>Irlande</option>
+          <option>Italie</option><option>Lettonie</option><option>Lituanie</option><option>Luxembourg</option>
+          <option>Malte</option><option>Monaco</option><option>Pays-Bas</option><option>Portugal</option>
+          <option>Saint-Marin</option><option>Slovaquie</option><option>Slovénie</option><option>Vatican</option>
+      </select>
+      <select id="sortSelect">
+          <option value="yearDesc">Plus récentes</option>
+          <option value="yearAsc">Plus anciennes</option>
+          <option value="countryAsc">Pays (A-Z)</option>
+      </select>
+  </div>
   <div class="pieces-grid" id="containerPieces"></div>
 </div>
 
 <div class="modal" id="pieceModal">
   <div class="modal-content">
-    <span class="close-modal" onclick="closeModal()"><span>×</span></span>
-    <div class="modal-img-container">
-      <img id="modalImg" src="">
-    </div>
+    <span class="close-modal" onclick="closeModal()">×</span>
+    <div style="background:#000; display:flex; justify-content:center;"><img id="modalImg" src="" style="max-height:50vh; object-fit:contain;"></div>
     <div class="modal-body">
       <h2 id="modalTitle" style="color: gold;"></h2>
-      <div id="modalDetails"></div>
+      <div id="modalDetails" style="line-height:1.6;"></div>
     </div>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
   apiKey: "AIzaSyCbAwyNnpevNoRl80nPnsAZMknVrv36RUg",
@@ -159,35 +172,89 @@
   let allPieces = [];
   let editingId = null;
 
+  // Setup Années
   const ySel = document.getElementById('pYear');
   for(let y=1999; y<=2050; y++) { let o=document.createElement('option'); o.value=y; o.text=y; ySel.add(o); }
 
-  async function loadData() {
-    try {
-        const snap = await getDocs(query(collection(db, "pieces"), orderBy("year", "desc")));
-        allPieces = snap.docs.map(d => ({ fireId: d.id, ...d.data() }));
-        render();
-    } catch(e) { console.error(e); }
+  // --- LOGIQUE ATELIERS DYNAMIQUE ---
+  const checkList = document.getElementById('workshopList');
+  const anchor = checkList.querySelector('.anchor');
+  const items = checkList.querySelectorAll('input[type="checkbox"]');
+
+  anchor.onclick = (e) => {
+    e.stopPropagation();
+    checkList.classList.toggle('visible');
+  };
+
+  // Fermer si on clique ailleurs
+  document.addEventListener('click', () => checkList.classList.remove('visible'));
+  checkList.querySelector('.items').onclick = (e) => e.stopPropagation();
+
+  // Mettre à jour le texte du label
+  function updateWorkshopLabel() {
+    const checked = Array.from(items).filter(i => i.checked).map(i => i.value);
+    if (checked.length === 0) {
+      anchor.innerText = "Choisir Atelier(s)";
+    } else {
+      anchor.innerText = checked.join(', ');
+    }
   }
 
-  function render(f = "") {
+  items.forEach(item => {
+    item.addEventListener('change', () => {
+        // Si "Aucun" est coché, décocher les autres et vice-versa
+        if (item.value === "Aucun" && item.checked) {
+            items.forEach(i => { if(i.value !== "Aucun") i.checked = false; });
+        } else if (item.checked) {
+            items.forEach(i => { if(i.value === "Aucun") i.checked = false; });
+        }
+        updateWorkshopLabel();
+    });
+  });
+
+  async function loadData() {
+    const snap = await getDocs(collection(db, "pieces"));
+    allPieces = snap.docs.map(d => ({ fireId: d.id, ...d.data() }));
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const countryFilter = document.getElementById('filterCountry').value;
+    const sortVal = document.getElementById('sortSelect').value;
+
+    let filtered = allPieces.filter(p => {
+        const matchesSearch = p.country.toLowerCase().includes(search) || (p.customID && p.customID.toLowerCase().includes(search));
+        const matchesCountry = countryFilter === "" || p.country === countryFilter;
+        return matchesSearch && matchesCountry;
+    });
+
+    filtered.sort((a, b) => {
+        if (sortVal === "yearDesc") return b.year - a.year;
+        if (sortVal === "yearAsc") return a.year - b.year;
+        return a.country.localeCompare(b.country);
+    });
+
+    render(filtered);
+  }
+
+  function render(list) {
     const cont = document.getElementById('containerPieces');
     cont.innerHTML = "";
     const isAdmin = !document.getElementById('adminView').classList.contains('hidden');
-    const filtered = allPieces.filter(p => p.country.toLowerCase().includes(f.toLowerCase()) || p.year.toString().includes(f) || p.customID.toLowerCase().includes(f.toLowerCase()));
 
-    filtered.forEach(p => {
+    list.forEach(p => {
       const card = document.createElement('div');
       card.className = "piece-card";
       card.innerHTML = `
         <img src="${p.image || 'https://upload.wikimedia.org/wikipedia/commons/5/53/2_euro_common_face.png'}">
         <div class="piece-content">
-          <h3>${p.country} - ${p.year}</h3>
-          <p><strong>ID:</strong> ${p.customID}</p>
-          <div class="status-badge">${p.condition || 'Circulée'}</div>
-          ${isAdmin ? `<div class="action-buttons">
-            <button onclick="prepareEdit('${p.fireId}')" style="background:#3b82f6; color:white">Modifier</button>
-            <button onclick="deleteP('${p.fireId}')" style="background:#ef4444; color:white">Supprimer</button>
+          <h3 style="color:gold;">${p.country} - ${p.year}</h3>
+          <p>Atelier: ${Array.isArray(p.workshop) ? p.workshop.join(', ') : (p.workshop || 'Aucun')}</p>
+          <div class="status-badge">${p.condition}</div>
+          ${isAdmin ? `<div style="display:flex; gap:5px; margin-top:10px;">
+            <button onclick="prepareEdit('${p.fireId}')" style="flex:1; padding:5px; background:#3b82f6;">Modif.</button>
+            <button onclick="deleteP('${p.fireId}')" style="flex:1; padding:5px; background:#ef4444;">X</button>
           </div>` : ''}
         </div>`;
       card.onclick = (e) => { if(e.target.tagName !== 'BUTTON') openModal(p); };
@@ -196,64 +263,67 @@
   }
 
   document.getElementById('btnSave').onclick = async () => {
+    const ws = Array.from(items).filter(i => i.checked).map(i => i.value);
     const d = { 
-        customID: document.getElementById('pID').value, country: document.getElementById('pCountry').value, 
-        year: document.getElementById('pYear').value, workshop: document.getElementById('pWorkshop').value,
-        condition: document.getElementById('pCondition').value, value: document.getElementById('pValue').value, 
-        quantity: document.getElementById('pQty').value, dateFound: document.getElementById('pDate').value, 
-        image: document.getElementById('pImage').value, description: document.getElementById('pDesc').value 
+        customID: document.getElementById('pID').value, country: document.getElementById('pCountry').value,
+        year: parseInt(document.getElementById('pYear').value), workshop: ws, condition: document.getElementById('pCondition').value,
+        value: document.getElementById('pValue').value, quantity: document.getElementById('pQty').value,
+        dateFound: document.getElementById('pDate').value, image: document.getElementById('pImage').value, description: document.getElementById('pDesc').value 
     };
-    if(!d.customID || !d.country) return alert("ID et Pays requis");
-    if(editingId) { await updateDoc(doc(db, "pieces", editingId), d); editingId = null; } 
-    else { await addDoc(collection(db, "pieces"), d); }
+    if(editingId) await updateDoc(doc(db, "pieces", editingId), d);
+    else await addDoc(collection(db, "pieces"), d);
     resetForm(); loadData();
   };
 
-  window.deleteP = async (id) => { if(confirm("Supprimer ?")) { await deleteDoc(doc(db, "pieces", id)); loadData(); } };
+  window.deleteP = async (id) => { if(confirm("Supprimer ?")) { await deleteDoc(doc(db, "pieces", id)); loadData(); }};
   
   window.prepareEdit = (id) => {
-    const p = allPieces.find(i => i.fireId === id); 
-    editingId = id;
-    document.getElementById('pID').value = p.customID; document.getElementById('pCountry').value = p.country;
-    document.getElementById('pYear').value = p.year; document.getElementById('pWorkshop').value = p.workshop;
-    document.getElementById('pCondition').value = p.condition || "Non spécifié";
-    document.getElementById('pValue').value = p.value; document.getElementById('pQty').value = p.quantity;
-    document.getElementById('pDate').value = p.dateFound; document.getElementById('pImage').value = p.image;
-    document.getElementById('pDesc').value = p.description;
+    const p = allPieces.find(i => i.fireId === id); editingId = id;
+    document.getElementById('pID').value = p.customID || ""; 
+    document.getElementById('pCountry').value = p.country;
+    document.getElementById('pYear').value = p.year;
+    items.forEach(i => i.checked = (p.workshop && p.workshop.includes(i.value)));
+    updateWorkshopLabel();
+    document.getElementById('pCondition').value = p.condition; 
+    document.getElementById('pValue').value = p.value || "";
+    document.getElementById('pQty').value = p.quantity || ""; 
+    document.getElementById('pDate').value = p.dateFound || "";
+    document.getElementById('pImage').value = p.image || ""; 
+    document.getElementById('pDesc').value = p.description || "";
     document.getElementById('formTitle').innerText = "💾 Modification";
     document.getElementById('btnCancel').classList.remove('hidden');
-    document.getElementById('adminView').scrollIntoView({behavior: "smooth"});
+    document.getElementById('adminView').scrollIntoView();
   };
 
-  document.getElementById('btnConnect').onclick = async () => {
-    try { await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); } 
-    catch(e) { alert("Accès refusé"); }
-  };
-
-  onAuthStateChanged(auth, (u) => {
+  onAuthStateChanged(auth, u => {
     document.getElementById('adminView').classList.toggle('hidden', !u);
     document.getElementById('loginPage').classList.toggle('hidden', !!u);
     loadData();
   });
 
-  document.getElementById('searchInput').onkeyup = (e) => render(e.target.value);
+  document.getElementById('searchInput').oninput = applyFilters;
+  document.getElementById('filterCountry').onchange = applyFilters;
+  document.getElementById('sortSelect').onchange = applyFilters;
 
-  window.openModal = (p) => {
+  window.openModal = p => {
     document.getElementById('modalImg').src = p.image || 'https://upload.wikimedia.org/wikipedia/commons/5/53/2_euro_common_face.png';
     document.getElementById('modalTitle').innerText = `${p.country} (${p.year})`;
-    document.getElementById('modalDetails').innerHTML = `
-      <p><strong>ID Unique :</strong> ${p.customID}</p>
-      <p><strong>État :</strong> ${p.condition || 'Non spécifié'}</p>
-      <p><strong>Atelier :</strong> ${p.workshop}</p>
-      <p><strong>Valeur :</strong> ${p.value} €</p>
-      <p><strong>Quantité :</strong> ${p.quantity}</p>
-      <p style="margin-top:15px; border-top: 1px solid #334155; padding-top:10px;">${p.description || 'Pas de description.'}</p>
-    `;
+    const wsText = Array.isArray(p.workshop) ? p.workshop.join(', ') : (p.workshop || 'Aucun');
+    document.getElementById('modalDetails').innerHTML = `<p><strong>Etat:</strong> ${p.condition}</p><p><strong>Atelier(s):</strong> ${wsText}</p><p><strong>Valeur:</strong> ${p.value}€</p><p>${p.description || ''}</p>`;
     document.getElementById('pieceModal').style.display = "flex";
   };
 
   window.closeModal = () => document.getElementById('pieceModal').style.display = "none";
-  function resetForm() { document.querySelectorAll('#adminView input, #adminView select, #adminView textarea').forEach(i => i.value=""); }
+
+  function resetForm() { 
+    document.querySelectorAll('#adminView input, #adminView select, #adminView textarea').forEach(i => i.value=""); 
+    items.forEach(i => i.checked=false); 
+    updateWorkshopLabel();
+    editingId=null; 
+    document.getElementById('formTitle').innerText = "➕ Ajouter une pièce";
+    document.getElementById('btnCancel').classList.add('hidden');
+  }
+  window.auth = auth;
 </script>
 </body>
 </html>
