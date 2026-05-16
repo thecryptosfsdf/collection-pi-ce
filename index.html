@@ -153,7 +153,18 @@
     </select>
     <input type="number" id="pValue" placeholder="Valeur (€)">
     <input type="number" id="pQty" placeholder="Quantité">
-    <input type="date" id="pDate">
+    <input type="number" id="pIssueVolume" placeholder="Volume d'émission (ex: 1000000)">
+    
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+      <span style="font-size: 0.75rem; color: gold; margin-bottom: -4px;">Date d'émission officielle</span>
+      <input type="date" id="pIssueDate">
+    </div>
+    
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+      <span style="font-size: 0.75rem; color: gold; margin-bottom: -4px;">Date de découverte / acquisition</span>
+      <input type="date" id="pDate">
+    </div>
+
     <input type="text" id="pImage" placeholder="Lien Image">
   </div>
   <textarea id="pDesc" placeholder="Description..."></textarea>
@@ -188,6 +199,8 @@
           <div class="detail-item"><strong>Valeur</strong><span id="modalVal"></span></div>
           <div class="detail-item"><strong>Atelier(s)</strong><span id="modalWS"></span></div>
           <div class="detail-item"><strong>Quantité</strong><span id="modalQty"></span></div>
+          <div class="detail-item"><strong>Vol. Émission</strong><span id="modalIssueVolume"></span></div>
+          <div class="detail-item"><strong>Date Émission</strong><span id="modalIssueDate"></span></div>
           <div class="detail-item"><strong>Acquisition</strong><span id="modalDate"></span></div>
           <div class="detail-item"><strong>ID Interne</strong><span id="modalID"></span></div>
       </div>
@@ -303,6 +316,7 @@
         customID: document.getElementById('pID').value, country: document.getElementById('pCountry').value,
         year: parseInt(document.getElementById('pYear').value), workshop: ws, condition: document.getElementById('pCondition').value,
         value: document.getElementById('pValue').value, quantity: document.getElementById('pQty').value,
+        issueVolume: document.getElementById('pIssueVolume').value, issueDate: document.getElementById('pIssueDate').value,
         dateFound: document.getElementById('pDate').value, image: document.getElementById('pImage').value, description: document.getElementById('pDesc').value 
     };
     if(editingId) await updateDoc(doc(db, "pieces", editingId), d);
@@ -322,6 +336,8 @@
     document.getElementById('pCondition').value = p.condition; 
     document.getElementById('pValue').value = p.value || "";
     document.getElementById('pQty').value = p.quantity || ""; 
+    document.getElementById('pIssueVolume').value = p.issueVolume || "";
+    document.getElementById('pIssueDate').value = p.issueDate || "";
     document.getElementById('pDate').value = p.dateFound || "";
     document.getElementById('pImage').value = p.image || ""; 
     document.getElementById('pDesc').value = p.description || "";
@@ -346,6 +362,25 @@
     document.getElementById('modalVal').innerText = p.value ? p.value + " €" : "0.00 €";
     document.getElementById('modalWS').innerText = Array.isArray(p.workshop) ? p.workshop.join(', ') : (p.workshop || 'Aucun');
     document.getElementById('modalQty').innerText = p.quantity || "1";
+    
+    // Formatage du volume d'émission avec séparateur de milliers lisible (ex: 1 500 000)
+    document.getElementById('modalIssueVolume').innerText = p.issueVolume ? Number(p.issueVolume).toLocaleString('fr-FR') : "Inconnu";
+    
+    // --- FORMATAGE DE LA DATE D'ÉMISSION EN FRANÇAIS ---
+    let formattedIssueDate = "Inconnue";
+    if (p.issueDate) {
+      const dateObj = new Date(p.issueDate);
+      // Vérification que la date est valide
+      if (!isNaN(dateObj.getTime())) {
+        formattedIssueDate = dateObj.toLocaleDateString('fr-FR', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+    }
+    document.getElementById('modalIssueDate').innerText = formattedIssueDate;
+    
     document.getElementById('modalDate').innerText = p.dateFound || "Inconnue";
     document.getElementById('modalID').innerText = p.customID || "-";
     document.getElementById('modalDesc').innerText = p.description || "Aucune description disponible.";
